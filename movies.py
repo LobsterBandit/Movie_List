@@ -77,3 +77,4 @@ if __name__ == "__main__":
 
     mlist = file_details(locations, extensions)
     print(mlist)
+    print('Yay')
