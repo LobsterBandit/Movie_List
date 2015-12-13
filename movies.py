@@ -1,7 +1,8 @@
 import os
 import re
+import json
 
-from config import SEARCHDIRS, EXTENSIONS
+from config import SEARCHDIRS, EXTENSIONS, BASEDIR, JSONFILE
 
 
 def file_details(locations, extensions):
@@ -43,7 +44,14 @@ def file_details(locations, extensions):
 
                     title, year = title_year(mfile)
 
-                    mlist.append([mfile, st, root, title, year])
+                    mlist.append(dict(filename=mfile,
+                                      size=st,
+                                      root=root,
+                                      title=title,
+                                      year=year
+                                      )
+                                 )
+
     return mlist
 
 
@@ -67,6 +75,13 @@ def title_year(m_file):
     return title, year
 
 
+def json_output(result, json_dir=BASEDIR, json_file=JSONFILE):
+    output = os.path.join(json_dir, json_file)
+    with open(output, 'w') as f:
+        json.dump(result, f, indent=4)
+    print('Query output created at {}'.format(output))
+
+
 if __name__ == "__main__":
     """
     Create a list of movies in the provided location.
@@ -76,5 +91,4 @@ if __name__ == "__main__":
     extensions = EXTENSIONS
 
     mlist = file_details(locations, extensions)
-    print(mlist)
-    print('Yay')
+    json_output(mlist)

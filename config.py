@@ -1,3 +1,6 @@
+import os
+
+
 SEARCHDIRS = ['E:\\1080p',
               'E:\\720p',
               'E:\\3D',
@@ -11,3 +14,7 @@ SEARCHDIRS = ['E:\\1080p',
               'V:\\High Def\\Movies\\1080p2']
 
 EXTENSIONS = ('.mkv', '.avi', '.mp4', '.iso', '.wmv')
+
+BASEDIR = os.path.abspath(os.path.dirname(__file__))
+
+JSONFILE = 'Movies.txt'
