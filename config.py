@@ -16,5 +16,8 @@ SEARCHDIRS = ['E:\\1080p',
 EXTENSIONS = ('.mkv', '.avi', '.mp4', '.iso', '.wmv')
 
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
+DATABASE = 'Movie_DB.db'
 
 JSONFILE = 'Movies.txt'
+
+
