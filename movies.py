@@ -76,6 +76,11 @@ def title_year(m_file):
 
 
 def json_output(result, json_dir=BASEDIR, json_file=JSONFILE):
+    """
+    Output 'result' as JSON to the specified directory and file
+        - directory defaults to base of config.py file
+        - filename defaults to that supplied by config.py
+    """
     output = os.path.join(json_dir, json_file)
     with open(output, 'w') as f:
         json.dump(result, f, indent=4)
