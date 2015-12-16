@@ -7,7 +7,8 @@ import requests
 import requests_cache
 
 from movies import file_details
-from config import SEARCHDIRS, EXTENSIONS, BASEDIR, JSONFILE, APIURL, APIKEY, HEADERS, CACHELOC
+from update_db import upsert_db
+from config import SEARCHDIRS, EXTENSIONS, BASEDIR, JSONFILE, APIURL, APIKEY, HEADERS, CACHELOC, DATABASE
 
 
 def enable_cache(cache_loc=CACHELOC, backend='sqlite', expire=432000):
@@ -76,11 +77,11 @@ def search_movie_with_year(request_list, api_key, headers, api_url):
                 else:
                     movie.update(tmdb_id=None)
                 if search_result['results'][0]['overview']:
-                    movie.update(Overview=search_result['results'][0]['overview'])
+                    movie.update(overview=search_result['results'][0]['overview'])
                 else:
-                    movie.update(Overview=None)
+                    movie.update(overview=None)
             else:
-                movie.update(tmdb_id=None, Overview=None)
+                movie.update(tmdb_id=None, overview=None)
 
         except KeyError as k:
             print(k)
@@ -168,12 +169,13 @@ def append_response(request_list, api_key, headers, api_url):
 
 
 if __name__ == '__main__':
-    enable_cache(expire=1)
+    enable_cache(expire=432000)
     pp = pprint.PrettyPrinter(indent=4)
     movies = file_details(SEARCHDIRS, EXTENSIONS)
     # movies = input_movies()
     mlist = search_movie_with_year(movies, APIKEY, HEADERS, APIURL)
     final_list, responses = append_response(mlist, APIKEY, HEADERS, APIURL)
-    pp.pprint(final_list)
+    # pp.pprint(final_list)
+    upsert_db(final_list, DATABASE)
 
 
