@@ -1,7 +1,7 @@
 import os
 import time
 import json
-import pprint
+# import pprint
 
 import requests
 import requests_cache
@@ -170,7 +170,7 @@ def append_response(request_list, api_key, headers, api_url):
 
 if __name__ == '__main__':
     enable_cache(expire=432000)
-    pp = pprint.PrettyPrinter(indent=4)
+    # pp = pprint.PrettyPrinter(indent=4)
     movies = file_details(SEARCHDIRS, EXTENSIONS)
     # movies = input_movies()
     mlist = search_movie_with_year(movies, APIKEY, HEADERS, APIURL)
