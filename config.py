@@ -13,8 +13,20 @@ SEARCHDIRS = ['E:\\1080p',
               'X:\\720p',
               'X:\\3D',
               'V:\\High Def\\Movies\\1080p2']
+
+DRIVES = ['C:',
+          'D:',
+          'E:',
+          'F:',
+          'I:',
+          'T:',
+          'X:',
+          'V:']
+
+
 EXTENSIONS = ('.mkv', '.avi', '.mp4', '.iso', '.wmv')
-JSONFILE = 'Movies.txt'
+JSONFILE = os.path.join(BASEDIR, 'Movies.txt')
+SPACEFILE = os.path.join(BASEDIR, 'Disk_Usage.txt')
 
 # database information
 DBNAME = 'Movie_DB.db'

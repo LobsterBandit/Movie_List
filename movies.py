@@ -2,7 +2,7 @@ import os
 import re
 import json
 
-from config import SEARCHDIRS, EXTENSIONS, BASEDIR, JSONFILE
+from config import SEARCHDIRS, EXTENSIONS, JSONFILE
 
 
 def file_details(locations, extensions):
@@ -75,16 +75,14 @@ def title_year(m_file):
     return title, year
 
 
-def json_output(result, json_dir=BASEDIR, json_file=JSONFILE):
+def json_output(result, json_file=JSONFILE):
     """
-    Output 'result' as JSON to the specified directory and file
-        - directory defaults to base of config.py file
+    Output 'result' as JSON to the specified file
         - filename defaults to that supplied by config.py
     """
-    output = os.path.join(json_dir, json_file)
-    with open(output, 'w') as f:
+    with open(json_file, 'w') as f:
         json.dump(result, f, indent=4)
-    print('Query output created at {}'.format(output))
+    print('Query output created at {}'.format(json_file))
 
 
 if __name__ == "__main__":

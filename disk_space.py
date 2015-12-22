@@ -3,6 +3,8 @@ import json
 from pprint import pprint
 from shutil import disk_usage
 
+from config import SPACEFILE, DRIVES
+
 
 def humanbytes(B):
    'Return the given bytes as a human friendly KB, MB, GB, or TB string'
@@ -36,15 +38,8 @@ def rw_json(file, obj=None, operation=None):
             print('{0} created.'.format(file))
 
 
-output = 'C:\\users\\darin\\desktop\\Drive_Usage.txt'
-drives = ['C:',
-          'D:',
-          'E:',
-          'F:',
-          'I:',
-          'T:',
-          'X:',
-          'V:']
+output = SPACEFILE
+drives = DRIVES
 
 mydict = rw_json(output, operation='read')
 pprint(mydict)

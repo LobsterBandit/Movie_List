@@ -1,14 +1,11 @@
-import os
 import time
-import json
-# import pprint
 
 import requests
 import requests_cache
 
 from movies import file_details
 from update_db import upsert_db
-from config import SEARCHDIRS, EXTENSIONS, BASEDIR, JSONFILE, APIURL, APIKEY, HEADERS, CACHELOC, DATABASE
+from config import SEARCHDIRS, EXTENSIONS, APIURL, APIKEY, HEADERS, CACHELOC, DATABASE
 
 
 def enable_cache(cache_loc=CACHELOC, backend='sqlite', expire=432000):
@@ -19,20 +16,6 @@ def enable_cache(cache_loc=CACHELOC, backend='sqlite', expire=432000):
         - Expiration default of 432,000 seconds (5 days).
     """
     requests_cache.install_cache(cache_loc, backend=backend, expire_after=expire)
-
-
-def input_movies(base_dir=BASEDIR, file=JSONFILE):
-    """
-    Reads in JSON file containing movie data structured as a list of dictionaries
-        - dir defaults to base directory of config.py
-        - file defaults to JSONFILE from config.py
-    :return: movies (list of dicts each containing movie data)
-    """
-    json_file = os.path.join(base_dir, file)
-    with open(json_file, 'r') as f:
-        movies = json.load(f)
-
-    return movies
 
 
 def search_movie_with_year(request_list, api_key, headers, api_url):
@@ -64,10 +47,11 @@ def search_movie_with_year(request_list, api_key, headers, api_url):
                 remain = search_req.headers['X-RateLimit-Remaining']
                 # print(search_req.headers)
                 print(remain)
-                if remain == '39':
+                if remain == '39' or remain == '38':
                     stime = time.time()
             else:
                 remain = None
+                stime = None
 
             search_result = search_req.json()
 
@@ -106,7 +90,7 @@ def search_movie_with_year(request_list, api_key, headers, api_url):
     return request_list
 
 
-def append_response(request_list, api_key, headers, api_url):
+def append_response(request_list, api_key, headers, api_url, response=False):
     """
     Retrieve additional movie data based on TMDb ID
 
@@ -125,10 +109,11 @@ def append_response(request_list, api_key, headers, api_url):
             if not search_req.from_cache:
                 remain = search_req.headers['X-RateLimit-Remaining']
                 print(remain)
-                if remain == '39':
+                if remain == '39' or remain == '38':
                     stime = time.time()
             else:
                 remain = None
+                stime = None
 
             search_result = search_req.json()
 
@@ -165,17 +150,12 @@ def append_response(request_list, api_key, headers, api_url):
                         print('0 requests left.  Sleeping for {} seconds.'.format(sleep))
                         time.sleep(sleep)
 
-    return request_list, req_resp
+    return request_list, req_resp if response else request_list
 
 
 if __name__ == '__main__':
     enable_cache(expire=432000)
-    # pp = pprint.PrettyPrinter(indent=4)
     movies = file_details(SEARCHDIRS, EXTENSIONS)
-    # movies = input_movies()
     mlist = search_movie_with_year(movies, APIKEY, HEADERS, APIURL)
-    final_list, responses = append_response(mlist, APIKEY, HEADERS, APIURL)
-    # pp.pprint(final_list)
-    upsert_db(final_list, DATABASE)
-
-
+    final_list = append_response(mlist, APIKEY, HEADERS, APIURL)
+    # upsert_db(final_list, DATABASE)
