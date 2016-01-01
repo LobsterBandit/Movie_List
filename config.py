@@ -6,6 +6,7 @@ SEARCHDIRS = ['E:\\1080p',
               'E:\\720p',
               'E:\\3D',
               'E:\\DvD.BRRip.R5',
+              'F:\\',
               'I:\\3D',
               'T:\\720p',
               'T:\\1080p Movies',
@@ -20,13 +21,14 @@ DRIVES = ['C:',
           'F:',
           'I:',
           'T:',
+          'W:',
           'X:',
           'V:']
 
 
 EXTENSIONS = ('.mkv', '.avi', '.mp4', '.iso', '.wmv')
 JSONFILE = os.path.join(BASEDIR, 'Movies.txt')
-SPACEFILE = os.path.join(BASEDIR, 'Disk_Usage.txt')
+SPACEFILE = os.path.join(BASEDIR, 'Drive_Usage.txt')
 
 # database information
 DBNAME = 'Movie_DB.db'
