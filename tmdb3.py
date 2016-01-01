@@ -45,13 +45,13 @@ def search_movie_with_year(request_list, api_key, headers, api_url):
 
             if not search_req.from_cache:
                 remain = search_req.headers['X-RateLimit-Remaining']
-                # print(search_req.headers)
                 print(remain)
-                if remain == '39' or remain == '38':
-                    stime = time.time()
             else:
                 remain = None
-                stime = None
+
+            if remain == '39':
+                stime = time.time()
+                print(stime)
 
             search_result = search_req.json()
 
@@ -69,23 +69,24 @@ def search_movie_with_year(request_list, api_key, headers, api_url):
 
         except KeyError as k:
             print(k)
-            if remain is not None:
-                if remain == '0':
-                    etime = time.time()
-                    delta = etime - stime
-                    if delta < 10:
-                        sleep = 11 - delta
-                        print('0 requests left.  Sleeping for {} seconds.'.format(sleep))
-                        time.sleep(sleep)
+            if remain is not None and remain == '0':
+                etime = time.time()
+                delta = etime - stime
+                if delta < 10:
+                    sleep = 11 - delta
+                    print('0 requests left.  Sleeping for {} seconds.'.format(sleep))
+                    time.sleep(sleep)
         finally:
-            if remain is not None:
-                if remain == '0':
-                    etime = time.time()
+            if remain is not None and remain == '0':
+                etime = time.time()
+                if stime is not None:
                     delta = etime - stime
-                    if delta < 10:
-                        sleep = 11 - delta
-                        print('0 requests left.  Sleeping for {} seconds.'.format(sleep))
-                        time.sleep(sleep)
+                else:
+                    delta = 0
+                if delta < 10:
+                    sleep = 11 - delta
+                    print('0 requests left.  Sleeping for {} seconds.'.format(sleep))
+                    time.sleep(sleep)
 
     return request_list
 
@@ -109,11 +110,12 @@ def append_response(request_list, api_key, headers, api_url, response=False):
             if not search_req.from_cache:
                 remain = search_req.headers['X-RateLimit-Remaining']
                 print(remain)
-                if remain == '39' or remain == '38':
-                    stime = time.time()
             else:
                 remain = None
-                stime = None
+
+            if remain == '39':
+                starttime = time.time()
+                print(starttime)
 
             search_result = search_req.json()
 
@@ -130,32 +132,33 @@ def append_response(request_list, api_key, headers, api_url, response=False):
         except KeyError as k:
             print(k)
             print('The offending movie is: {}'.format(movie[0]))
-            if remain is not None:
-                if remain == '0':
-                    etime = time.time()
-                    delta = etime - stime
-                    if delta < 10:
-                        sleep = 11 - delta
-                        print('0 requests left.  Sleeping for {} seconds.'.format(sleep))
-                        time.sleep(sleep)
+            if remain is not None and remain == '0':
+                endtime = time.time()
+                delta = endtime - starttime
+                if delta < 10:
+                    sleep = 11 - delta
+                    print('0 requests left.  Sleeping for {} seconds.'.format(sleep))
+                    time.sleep(sleep)
         finally:
             title = movie['title']
             req_resp[title] = search_result
-            if remain is not None:
-                if remain == '0':
-                    etime = time.time()
-                    delta = etime - stime
-                    if delta < 10:
-                        sleep = 11 - delta
-                        print('0 requests left.  Sleeping for {} seconds.'.format(sleep))
-                        time.sleep(sleep)
+            if remain is not None and remain == '0':
+                endtime = time.time()
+                if starttime is not None:
+                    delta = endtime - starttime
+                else:
+                    delta = 0
+                if delta < 10:
+                    sleep = 11 - delta
+                    print('0 requests left.  Sleeping for {} seconds.'.format(sleep))
+                    time.sleep(sleep)
 
-    return request_list, req_resp if response else request_list
-
+    # return {request_list, req_resp if response else request_list}
+    return request_list
 
 if __name__ == '__main__':
     enable_cache(expire=432000)
     movies = file_details(SEARCHDIRS, EXTENSIONS)
     mlist = search_movie_with_year(movies, APIKEY, HEADERS, APIURL)
     final_list = append_response(mlist, APIKEY, HEADERS, APIURL)
-    # upsert_db(final_list, DATABASE)
+    upsert_db(final_list, DATABASE)
