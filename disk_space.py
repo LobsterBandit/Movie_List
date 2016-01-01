@@ -27,7 +27,7 @@ def humanbytes(B):
 
 
 def rw_json(file, obj=None, operation=None):
-    if operation is not None:
+    if operation is not None and os.path.exists(file):
         if operation == 'read':
             with open(file, 'r') as f:
                 x = json.load(f)
@@ -36,6 +36,11 @@ def rw_json(file, obj=None, operation=None):
             with open(file, 'w') as f:
                 json.dump(obj, f, indent=4)
             print('{0} created.'.format(file))
+    else:
+        if operation == 'write':
+            with open(file, 'w') as f:
+                json.dump(obj, f, indent=4)
+            print('New file {0} created.'.format(file))
 
 
 output = SPACEFILE
