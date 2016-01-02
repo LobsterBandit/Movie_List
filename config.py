@@ -35,6 +35,8 @@ DBNAME = 'Movie_DB.db'
 DATABASE = os.path.join(BASEDIR, DBNAME)
 
 # TMDb api information
+CONFIG_PATTERN = 'https://api.themoviedb.org/3/configuration?api_key={key}'
+IMG_PATTERN = 'https://api.themoviedb.org/3/movie/{tmdbid}/images?api_key={key}'
 APIURL = 'https://api.themoviedb.org/3/'
 APIKEY = os.environ['TMDBAPIKEY']
 HEADERS = {
@@ -44,3 +46,6 @@ HEADERS = {
 # requests cache
 CACHENAME = 'tmdb_cache'
 CACHELOC = os.path.join(BASEDIR, CACHENAME)
+
+# movie app static image location
+APPIMG = r'C:\Users\Darin\Movie_App\Movie_DB_App\app\static\images'
