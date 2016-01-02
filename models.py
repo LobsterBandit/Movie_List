@@ -72,3 +72,27 @@ class Video(Base):
     Date_Added = Column(DateTime, server_default=text("CURRENT_TIMESTAMP"))
 
     Movie = relationship('MovieList')
+
+
+class Rating(Base):
+    __tablename__ = 'Ratings'
+
+    Rating_ID = Column(Integer, primary_key=True)
+    imdb_rating = Column(Float)
+    imdb_votes = Column(Integer)
+    tomato_rating = Column(Float)
+    tomato_reviews = Column(Integer)
+    tomato_fresh = Column(Integer)
+    tomato_rotten = Column(Integer)
+    tomato_meter = Column(Integer)
+    tomato_consensus = Column(Text)
+    tomato_image = Column(Text)
+    tomato_user_meter = Column(Integer)
+    tomato_user_rating = Column(Float)
+    tomato_user_reviews = Column(Integer)
+    tomato_url = Column(Text)
+    Movie_id = Column(ForeignKey('Movie_List.id'), nullable=False)
+    Date_Updated = Column(DateTime, server_default=text("CURRENT_TIMESTAMP"))
+    Date_Added = Column(DateTime, server_default=text("CURRENT_TIMESTAMP"))
+
+    Movie = relationship('MovieList')
