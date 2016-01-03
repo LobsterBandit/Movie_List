@@ -57,20 +57,20 @@ def create_db(db_name):
         # )
         # """)
         #
-        # cur.execute("""
-        # CREATE TABLE Video (
-        # Video_ID        INTEGER PRIMARY KEY AUTOINCREMENT,
-        # Type            TEXT,
-        # Key             TEXT,
-        # Name            TEXT,
-        # Size            INTEGER,
-        # Site            TEXT,
-        # Movie_id        INTEGER NOT NULL,
-        # Date_Updated    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        # Date_Added      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        # FOREIGN KEY(Movie_id) REFERENCES Movie_List(id) ON UPDATE CASCADE
-        # )
-        # """)
+        cur.execute("""
+        CREATE TABLE Video (
+        Video_ID        INTEGER PRIMARY KEY AUTOINCREMENT,
+        Type            TEXT,
+        Key             TEXT,
+        Name            TEXT,
+        Size            INTEGER,
+        Site            TEXT,
+        Movie_id        INTEGER NOT NULL,
+        Date_Updated    TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        Date_Added      TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        FOREIGN KEY(Movie_id) REFERENCES Movie_List(id) ON UPDATE CASCADE
+        )
+        """)
 
         cur.execute("""
         CREATE TABLE Ratings (
@@ -89,8 +89,8 @@ def create_db(db_name):
         tomato_user_reviews INTEGER,
         tomato_url          TEXT,
         Movie_id            INTEGER NOT NULL,
-        Date_Updated        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        Date_Added          TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        Date_Updated        TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        Date_Added          TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
         FOREIGN KEY(Movie_id) REFERENCES Movie_List(id) ON UPDATE CASCADE
         )
         """)
