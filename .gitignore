@@ -6,7 +6,7 @@ Drive_Usage.txt
 Movie_List.csv
 Movie_List.xlsx
 temp.py
-OMDb_Ratings.txt
+scraper/OMDb_Ratings.txt
 
 # Compiled source #
 ###################
