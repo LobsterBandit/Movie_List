@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 
 from models import Base, MovieList
-from config import DATABASE, CACHELOC, BASEDIR
+from config import DATABASE, CACHELOC
 
 
 def omdb(movies):
@@ -42,7 +42,7 @@ def omdb(movies):
     return ratings
 
 
-def json_output(result, json_file=os.path.join(BASEDIR,'OMDb_Ratings.txt')):
+def json_output(result, json_file=os.path.join(os.path.abspath(os.path.dirname(__file__)),'OMDb_Ratings.txt')):
     """
     Output 'result' as JSON to the specified file
         - filename defaults to that supplied by config.py
