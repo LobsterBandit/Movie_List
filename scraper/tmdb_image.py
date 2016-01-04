@@ -50,6 +50,10 @@ if __name__ == '__main__':
     Base.metadata.bind = engine
     session = scoped_session(sessionmaker(bind=engine))
 
-    movies = session.query(MovieList).order_by(MovieList.Title).all()
+    # all images
+    # movies = session.query(MovieList).order_by(MovieList.Title).all()
+
+    # one image based on imdb_id
+    movies = session.query(MovieList).filter(MovieList.imdb_id=='tt2503944').all()
 
     download_images(movies, base_url, size, output)
