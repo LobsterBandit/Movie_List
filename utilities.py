@@ -9,10 +9,10 @@ def copy_db(src=FRESHDB, dst=APPDB):
                     or just directory path.  filename will be maintained if only path supplied.
     """
     try:
-        shutil.copy2(src, dst)
+        x = shutil.copy2(src, dst)
+        print('File copied to {}.'.format(x))
     except shutil.SameFileError as e:
-        print('Both source and destination files are identical.')
-        print('No copy necessary.')
+        print('Both source and destination are identical.')
 
 
 if __name__ == '__main__':

@@ -38,7 +38,7 @@ DATABASE = os.path.join(BASEDIR, DBNAME)
 FRESH_PATH = r'C:\Users\Darin\PythonProjects\Movie_List'
 FRESHDB = os.path.join(FRESH_PATH, DBNAME)
 APP_PATH = r'C:\Users\Darin\Movie_App\Movie_DB_App'
-APPDB = os.path.join(FRESH_PATH, DBNAME)
+APPDB = os.path.join(APP_PATH, DBNAME)
 
 # TMDb api information
 CONFIG_PATTERN = 'https://api.themoviedb.org/3/configuration?api_key={key}'
