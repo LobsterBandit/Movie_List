@@ -34,6 +34,11 @@ SPACEFILE = os.path.join(BASEDIR, 'Drive_Usage.txt')
 # database information
 DBNAME = 'Movie_DB.db'
 DATABASE = os.path.join(BASEDIR, DBNAME)
+# database migration
+FRESH_PATH = r'C:\Users\Darin\PythonProjects\Movie_List'
+FRESHDB = os.path.join(FRESH_PATH, DBNAME)
+APP_PATH = r'C:\Users\Darin\Movie_App\Movie_DB_App'
+APPDB = os.path.join(FRESH_PATH, DBNAME)
 
 # TMDb api information
 CONFIG_PATTERN = 'https://api.themoviedb.org/3/configuration?api_key={key}'
