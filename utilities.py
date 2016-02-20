@@ -30,7 +30,7 @@ def backup_db(src=APPDB, dst=BACKUPDB, append_date=False):
         if append_date is True:
             filename, ext = os.path.splitext(dst)
             head, tail = os.path.split(filename)
-            newfile = '{file}_{date}{ext}'.format(file=tail, date=datetime.now().strftime('%Y%m%d'), ext=ext)
+            newfile = '{file}_{date}{ext}'.format(file=tail, date=datetime.now().strftime('%Y%m%d_%H%M%S'), ext=ext)
             dst = os.path.join(head, newfile)
             x = shutil.copy2(src, dst)
             print('File backed up to {}'.format(x))
