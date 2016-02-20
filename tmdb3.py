@@ -88,10 +88,10 @@ def search_movie_with_year(request_list, api_key, headers, api_url):
                     print('0 requests left.  Sleeping for {} seconds.'.format(sleep))
                     time.sleep(sleep)
 
-    return request_list
+    return request_list, stime
 
 
-def append_response(request_list, api_key, headers, api_url, response=False):
+def append_response(request_list, api_key, headers, api_url, startingtime, response=False):
     """
     Retrieve additional movie data based on TMDb ID
 
@@ -102,6 +102,7 @@ def append_response(request_list, api_key, headers, api_url, response=False):
     payload = {
         'append_to_response': 'videos'
     }
+    starttime = startingtime
     for movie in request_list:
         try:
             tmdb_id = movie['tmdb_id']
@@ -159,6 +160,6 @@ def append_response(request_list, api_key, headers, api_url, response=False):
 if __name__ == '__main__':
     enable_cache(expire=432000)
     movies = file_details(SEARCHDIRS, EXTENSIONS)
-    mlist = search_movie_with_year(movies, APIKEY, HEADERS, APIURL)
-    final_list = append_response(mlist, APIKEY, HEADERS, APIURL)
+    mlist, stime = search_movie_with_year(movies, APIKEY, HEADERS, APIURL)
+    final_list = append_response(mlist, APIKEY, HEADERS, APIURL, stime)
     upsert_db(final_list, DATABASE)
