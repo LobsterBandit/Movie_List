@@ -61,7 +61,7 @@ def title_year(m_file):
 
     Currently optimized for: "Title (year).extension"
     """
-    name = re.compile(r'([\w+\W?]+)\s\(([0-9]{4})\)[\s\w*]*\.\w{2,4}')
+    name = re.compile(r'([\w+\W?]+)\s\(([0-9]{4})\)[\s\w]*[\d\.\d]*[\s\w]*\.\w{2,4}')
 
     fsearch = name.search(m_file)
     if fsearch:
