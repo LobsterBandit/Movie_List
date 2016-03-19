@@ -132,7 +132,7 @@ def append_response(request_list, api_key, headers, api_url, startingtime, respo
 
         except KeyError as k:
             print(k)
-            print('The offending movie is: {}'.format(movie[0]))
+            print('The offending movie is: {}'.format(movie['filename']))
             if remain is not None and remain == '0':
                 endtime = time.time()
                 delta = endtime - starttime
