@@ -13,7 +13,7 @@ def copy_db(src=FRESHDB, dst=APPDB):
     """
     try:
         x = shutil.copy2(src, dst)
-        print('File copied to {}.'.format(x))
+        print('File copied to {}'.format(x))
     except shutil.SameFileError as e:
         print('Both source and destination are identical.')
 
@@ -44,3 +44,4 @@ def backup_db(src=APPDB, dst=BACKUPDB, append_date=False):
 if __name__ == '__main__':
     backup_db(append_date=True)
     copy_db()
+    copy_db(dst=r'E:\Movie_DB.db')
