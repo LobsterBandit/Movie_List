@@ -84,7 +84,7 @@ def _get_tmdb_video(movies):
 
 
 if __name__ == '__main__':
-    requests_cache.install_cache(CACHELOC, backend='sqlite', expire_after=432000)
+    requests_cache.install_cache(CACHELOC, backend='sqlite', expire_after=864000)
 
     engine = create_engine('sqlite:///{}'.format(DATABASE))
     Base.metadata.bind = engine

@@ -158,7 +158,7 @@ def append_response(request_list, api_key, headers, api_url, startingtime, respo
     return request_list
 
 if __name__ == '__main__':
-    enable_cache(expire=432000)
+    enable_cache(expire=864000)
     movies = file_details(SEARCHDIRS, EXTENSIONS)
     mlist, stime = search_movie_with_year(movies, APIKEY, HEADERS, APIURL)
     final_list = append_response(mlist, APIKEY, HEADERS, APIURL, stime)
