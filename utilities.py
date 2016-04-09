@@ -4,18 +4,19 @@ from datetime import datetime
 from config import FRESHDB, APPDB, BACKUPDB
 
 
-def copy_db(src=FRESHDB, dst=APPDB):
+def copy_db(src=FRESHDB, dst=[APPDB]):
     """
     Copy most updated DB from Movie_List directory to the flask app directory
     :param src: accepts string value of fully qualified file path
-    :param dst: accepts string value of either fully qualified destination path and filename
+    :param dst: accepts list of strings of either fully qualified destination path and filename
                 or just directory path.  filename will be maintained if only path supplied.
     """
-    try:
-        x = shutil.copy2(src, dst)
-        print('File copied to {}'.format(x))
-    except shutil.SameFileError as e:
-        print('Both source and destination are identical.')
+    for dest in dst:
+        try:
+            x = shutil.copy2(src, dest)
+            print('File copied to {}'.format(x))
+        except shutil.SameFileError:
+            print('Both source and destination are identical.')
 
 
 def backup_db(src=APPDB, dst=BACKUPDB, append_date=False):
@@ -43,5 +44,11 @@ def backup_db(src=APPDB, dst=BACKUPDB, append_date=False):
 
 if __name__ == '__main__':
     backup_db(append_date=True)
-    copy_db()
-    copy_db(dst=r'E:\Movie_DB.db')
+    # copy_db()
+    # copy_db(dst=r'E:\Movie_DB.db')
+    # copy_db(dst=r'D:\Libraries\Documents\Visual Studio Projects\MovieApi\MovieApi\Movie_DB.db')
+    # copy_db(dst=r'C:\inetpub\wwwroot\MovieApi\Movie_DB.db')
+    copy_db(dst=[APPDB,
+                 r'E:\Movie_DB.db',
+                 r'D:\Libraries\Documents\Visual Studio Projects\MovieApi\MovieApi\Movie_DB.db',
+                 r'C:\inetpub\wwwroot\MovieApi\Movie_DB.db'])
