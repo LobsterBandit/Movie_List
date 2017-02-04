@@ -38,36 +38,40 @@ def _get_tmdb_video(movies):
         # pprint.pprint(video_resp.json())
         video_resp = video_resp.json()
 
-        if 'results' in video_resp['videos'].keys():
-            for video in video_resp['videos']['results']:
-                if video['iso_639_1'] == 'en':
-                    if video['type']:
-                        vtype = video['type']
-                    else:
-                        vtype = None
-                    if video['key']:
-                        vkey = video['key']
-                    else:
-                        vkey = None
-                    if video['name']:
-                        vname = video['name']
-                    else:
-                        vname = None
-                    if video['size']:
-                        vsize = video['size']
-                    else:
-                        vsize = None
-                    if video['site']:
-                        vsite = video['site']
-                    else:
-                        vsite = None
+        try:
+            if 'results' in video_resp['videos'].keys():
+                for video in video_resp['videos']['results']:
+                    if video['iso_639_1'] == 'en':
+                        if video['type']:
+                            vtype = video['type']
+                        else:
+                            vtype = None
+                        if video['key']:
+                            vkey = video['key']
+                        else:
+                            vkey = None
+                        if video['name']:
+                            vname = video['name']
+                        else:
+                            vname = None
+                        if video['size']:
+                            vsize = video['size']
+                        else:
+                            vsize = None
+                        if video['site']:
+                            vsite = video['site']
+                        else:
+                            vsite = None
 
-                    video_list.append(dict(movie_id=movie.id,
-                                           type=vtype,
-                                           key=vkey,
-                                           name=vname,
-                                           size=vsize,
-                                           site=vsite))
+                        video_list.append(dict(movie_id=movie.id,
+                                               type=vtype,
+                                               key=vkey,
+                                               name=vname,
+                                               size=vsize,
+                                               site=vsite))
+        except KeyError as k:
+            print(k)
+            print('The offending movie is: {}'.format(movie.Filename))
 
         if remain is not None and remain == '0':
             endtime = time.time()
@@ -84,7 +88,7 @@ def _get_tmdb_video(movies):
 
 
 if __name__ == '__main__':
-    requests_cache.install_cache(CACHELOC, backend='sqlite', expire_after=864000)
+    requests_cache.install_cache(CACHELOC, backend='sqlite', expire_after=1296000)
 
     engine = create_engine('sqlite:///{}'.format(DATABASE))
     Base.metadata.bind = engine

@@ -40,6 +40,7 @@ def search_movie_with_year(request_list, api_key, headers, api_url):
             'year': {year},
         }
         search_url = '{url}search/movie?api_key={key}'.format(url=api_url, key=api_key)
+        stime = 0
         try:
             search_req = requests.get(search_url, headers=headers, params=payload)
 
@@ -121,15 +122,20 @@ def append_response(request_list, api_key, headers, api_url, startingtime, respo
             search_result = search_req.json()
 
             movie_keys = ['imdb_id', 'vote_average', 'runtime', 'poster_path',
-                          'backdrop_path', 'release_date', 'tagline']
+                          'backdrop_path', 'release_date', 'tagline', 'genres']
 
             for key in movie_keys:
                 if key in search_result.keys():
-                    result = search_result[key]
+                    if key == 'genres':
+                        genres = ','.join(i['name'] for i in search_result[key])
+                        result = genres
+                        # print(genres)
+                    else:
+                        result = search_result[key]
                 else:
                     result = None
                 movie[key] = result
-
+            print(movie['genres'])
         except KeyError as k:
             print(k)
             print('The offending movie is: {}'.format(movie['filename']))
@@ -154,11 +160,10 @@ def append_response(request_list, api_key, headers, api_url, startingtime, respo
                     print('0 requests left.  Sleeping for {} seconds.'.format(sleep))
                     time.sleep(sleep)
 
-    # return {request_list, req_resp if response else request_list}
     return request_list
 
 if __name__ == '__main__':
-    enable_cache(expire=864000)
+    enable_cache(expire=1296000)
     movies = file_details(SEARCHDIRS, EXTENSIONS)
     mlist, stime = search_movie_with_year(movies, APIKEY, HEADERS, APIURL)
     final_list = append_response(mlist, APIKEY, HEADERS, APIURL, stime)
